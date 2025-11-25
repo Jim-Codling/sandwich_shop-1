@@ -173,6 +173,11 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // compute cart summary for display
+    final int itemsInCart = _cart.countOfItems;
+    final double cartTotal = _cart.totalPrice;
+    final String cartTotalDisplay = '\$${cartTotal.toStringAsFixed(2)}';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -198,6 +203,23 @@ class _OrderScreenState extends State<OrderScreen> {
                       ),
                     );
                   },
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Cart summary: number of items and total cost
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Items in cart: $itemsInCart', style: normalText),
+                        Text('Total: $cartTotalDisplay', style: heading2),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
