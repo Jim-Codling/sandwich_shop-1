@@ -177,4 +177,152 @@ void main() {
       expect(find.text('Note: Lots of lettuce'), findsOneWidget);
     });
   });
+
+  group('Cart - Add to Cart', () {
+    testWidgets('adds item to cart and shows confirmation SnackBar',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Increase quantity to 2
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      // Tap "Add to Cart" button
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      // Verify SnackBar appears with confirmation message
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.textContaining('Added 2 footlong'), findsOneWidget);
+    });
+
+    testWidgets('adds multiple different sandwiches to cart',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Add 1 footlong
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      // Toggle to six-inch
+      await tester.tap(find.byType(Switch));
+      await tester.pump();
+      // Add 2 six-inch
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      // Verify SnackBar for second add
+      expect(find.textContaining('Added 2 six-inch'), findsOneWidget);
+    });
+  });
+
+  group('Cart - Display', () {
+    testWidgets('displays cart item count and total price initially',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Initial cart should show 0 items and $0.00
+      expect(find.text('Items in cart: 0'), findsOneWidget);
+      expect(find.textContaining('Total: \$0.00'), findsOneWidget);
+    });
+
+    testWidgets('updates cart count when footlong item is added',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Increase quantity to 1
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      // Tap "Add to Cart"
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      // Cart should show 1 item
+      expect(find.text('Items in cart: 1'), findsOneWidget);
+    });
+
+    testWidgets('calculates correct total for single footlong sandwich',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Add 1 footlong sandwich (1 x $11 = $11.00)
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Total: \$11.00'), findsOneWidget);
+    });
+
+    testWidgets('calculates correct total for multiple footlong sandwiches',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Add 3 footlong sandwiches (3 x $11 = $33.00)
+      for (int i = 0; i < 3; i++) {
+        await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+        await tester.pump();
+      }
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Total: \$33.00'), findsOneWidget);
+      expect(find.text('Items in cart: 3'), findsOneWidget);
+    });
+
+    testWidgets('calculates correct total for six-inch sandwich',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Toggle to six-inch
+      await tester.tap(find.byType(Switch));
+      await tester.pump();
+      // Add 2 six-inch sandwiches (2 x $7 = $14.00)
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Total: \$14.00'), findsOneWidget);
+      expect(find.text('Items in cart: 2'), findsOneWidget);
+    });
+
+    testWidgets('calculates correct total for multiple six-inch sandwiches',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Toggle to six-inch
+      await tester.tap(find.byType(Switch));
+      await tester.pump();
+      // Add 4 six-inch sandwiches (4 x $7 = $28.00)
+      for (int i = 0; i < 4; i++) {
+        await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+        await tester.pump();
+      }
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Total: \$28.00'), findsOneWidget);
+      expect(find.text('Items in cart: 4'), findsOneWidget);
+    });
+
+    testWidgets('adds multiple different sandwich types and updates total',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const App());
+      // Add 2 footlong sandwiches (2 x $11 = $22.00)
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Total: \$22.00'), findsOneWidget);
+      expect(find.text('Items in cart: 2'), findsOneWidget);
+
+      // Toggle to six-inch and add 3 more (3 x $7 = $21.00, total = $43.00)
+      await tester.tap(find.byType(Switch));
+      await tester.pump();
+      for (int i = 0; i < 3; i++) {
+        await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+        await tester.pump();
+      }
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add to Cart'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Total: \$43.00'), findsOneWidget);
+      expect(find.text('Items in cart: 5'), findsOneWidget);
+    });
+  });
 }
