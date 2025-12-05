@@ -3,6 +3,8 @@ import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/shopping_cart_page.dart';
+import 'package:sandwich_shop/views/about_screen.dart';
+import 'package:sandwich_shop/login_page.dart';
 
 void main() {
   runApp(const App());
@@ -13,9 +15,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Sandwich Shop App',
-      home: OrderScreen(maxQuantity: 5),
+      home: const OrderScreen(maxQuantity: 5),
+      routes: {
+        '/about': (context) => const AboutScreen(),
+        '/login': (context) => const LoginPage(),
+      },
     );
   }
 }
@@ -289,6 +295,11 @@ class _OrderScreenState extends State<OrderScreen> {
                 icon: Icons.shopping_cart,
                 label: 'View Cart',
                 backgroundColor: Colors.orange,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/login'),
+                child: const Text('Login'),
               ),
               const SizedBox(height: 20),
             ],
