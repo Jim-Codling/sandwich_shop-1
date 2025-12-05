@@ -26,6 +26,10 @@ class Cart {
     }
   }
 
+  void removeAll(Sandwich sandwich) {
+    _items.remove(sandwich);
+  }
+
   void clear() {
     _items.clear();
   }

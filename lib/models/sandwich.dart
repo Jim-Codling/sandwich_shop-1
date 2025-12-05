@@ -41,4 +41,6 @@ class Sandwich {
     }
     return 'assets/images/${typeString}_$sizeString.png';
   }
+
+  double get price => isFootlong ? 11.00 : 7.00;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/shopping_cart_page.dart';
 
 void main() {
   runApp(const App());
@@ -274,6 +275,20 @@ class _OrderScreenState extends State<OrderScreen> {
                 icon: Icons.add_shopping_cart,
                 label: 'Add to Cart',
                 backgroundColor: Colors.green,
+              ),
+              const SizedBox(height: 20),
+              StyledButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingCartPage(cart: _cart),
+                    ),
+                  );
+                },
+                icon: Icons.shopping_cart,
+                label: 'View Cart',
+                backgroundColor: Colors.orange,
               ),
               const SizedBox(height: 20),
             ],
