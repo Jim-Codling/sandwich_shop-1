@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
+import 'package:sandwich_shop/widgets/app_header.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   final Cart cart;
@@ -36,9 +37,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     final total = widget.cart.totalPrice;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping Cart'),
-      ),
+      appBar: const AppHeader(title: 'Sandwich Shop'),
+      drawer: const AppDrawer(),
       body: items.isEmpty
           ? const Center(
               child: Text(

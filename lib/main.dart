@@ -5,6 +5,7 @@ import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/shopping_cart_page.dart';
 import 'package:sandwich_shop/views/about_screen.dart';
 import 'package:sandwich_shop/login_page.dart';
+import 'package:sandwich_shop/widgets/app_header.dart';
 
 void main() {
   runApp(const App());
@@ -186,12 +187,8 @@ class _OrderScreenState extends State<OrderScreen> {
     final String cartTotalDisplay = '\$${cartTotal.toStringAsFixed(2)}';
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Sandwich Counter',
-          style: heading1,
-        ),
-      ),
+      appBar: const AppHeader(title: 'Sandwich Shop'),
+      drawer: const AppDrawer(),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

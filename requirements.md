@@ -94,3 +94,83 @@ This document describes the steps and requirements for adding a new "Login" page
 
 **Summary:**  
 Implement a new login page with email and password fields, accessible from the home screen via a button, with navigation, basic validation, and clear UI/UX.
+
+
+
+
+
+
+
+
+# Requirements for Creating a Header with Drawer Navigation
+
+This document outlines the requirements for implementing a header widget with a navigation drawer in the Sandwich Shop Flutter application. The drawer will provide links to every page in the app for easy navigation.
+
+---
+
+## 1. UI Changes
+
+### Header Widget
+- Create a new reusable header widget (e.g., `AppHeader` or `MainHeader`).
+- The header should include:
+  - An AppBar with a menu (hamburger) icon on the left.
+  - The app title or logo in the center or left.
+  - Optionally, action icons (e.g., cart, search) on the right.
+
+### Drawer
+- The drawer should slide in from the left when the menu icon is tapped.
+- The drawer should contain a `ListView` or `Column` of navigation links.
+- Each link should navigate to a different page in the app.
+- Each link should have a clear label (e.g., "Home", "Order", "Shopping Cart", "Login", "About", etc.).
+- Optionally, include icons next to each link for clarity.
+
+---
+
+## 2. Navigation
+
+- Use `Navigator.pushNamed(context, routeName)` for navigation.
+- Ensure all app pages have named routes defined in `MaterialApp`.
+- When a drawer link is tapped, close the drawer and navigate to the selected page.
+
+---
+
+## 3. Integration
+
+- Replace the current AppBar in each page with the new header widget.
+- Ensure the drawer is accessible from every main page of the app.
+
+---
+
+## 4. File Structure
+
+- `lib/widgets/app_header.dart` — new file for the header and drawer widget.
+- Update each main page (e.g., `main.dart`, `order_screen.dart`, etc.) to use the new header.
+
+---
+
+## 5. Accessibility & UX
+
+- The drawer should be accessible via swipe and the menu icon.
+- All links should be keyboard and screen-reader accessible.
+- The currently active page can be highlighted in the drawer (optional).
+
+---
+
+## 6. Testing
+
+- Add widget tests to verify:
+  - The header and drawer appear on every page.
+  - The drawer opens and closes correctly.
+  - Each link navigates to the correct page.
+  - The drawer closes after navigation.
+
+---
+
+## 7. Documentation
+
+- Update the README to mention the new navigation drawer and its usage.
+
+---
+
+**Summary:**  
+Implement a reusable header with a navigation drawer containing links to every page in the app. Ensure smooth navigation, accessibility, and integration across all main pages.
